@@ -1,6 +1,7 @@
 # pill_pal
 
-A new Flutter project.
+A Medication Tracking Platform.
+It's a Mobile Application Development Project.
 
 ## Getting Started
 
