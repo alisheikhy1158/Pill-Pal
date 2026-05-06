@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/medication.dart';
 import '../widgets/shared.dart';
+import 'package:provider/provider.dart';
+import '../providers/app_state.dart';
 
 enum _TimeFilter { all, morning, afternoon, evening }
 
@@ -27,7 +29,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   List<({Medication med, TimeOfDay time, MedStatus status})> get _slots {
     final all = <({Medication med, TimeOfDay time, MedStatus status})>[];
-    for (final m in sampleMeds) {
+
+    // FETCH REAL DATA: Listen to your AppState for the medications list
+    final realMeds = context.watch<AppState>().medications;
+
+    for (final m in realMeds) {
       for (final t in m.reminderTimes) {
         final status = m.takenToday
             ? MedStatus.done
@@ -40,6 +46,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         - (b.time.hour * 60 + b.time.minute));
     return all;
   }
+
 
   List<({Medication med, TimeOfDay time, MedStatus status})> get _filtered {
     return _slots.where((s) {
